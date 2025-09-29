@@ -1,2 +1,0 @@
-This is a starting file and used to get an initial commit ready. 
-This will also serve as scratch paper within the github space if needed. 
