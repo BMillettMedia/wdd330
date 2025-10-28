@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script type="module" src="../js/checkout.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Checkout</h1>
+  </header>
+
+  <main>
+    <form id="checkout-form">
+      <h2>Billing Information</h2>
+
+      <label>First Name <input type="text" name="fname" required></label>
+      <label>Last Name <input type="text" name="lname" required></label>
+      <label>Street <input type="text" name="street" required></label>
+      <label>City <input type="text" name="city" required></label>
+      <label>State <input type="text" name="state" required></label>
+      <label>Zip <input type="text" name="zip" required></label>
+
+      <h2>Payment Details</h2>
+      <label>Card Number <input type="text" name="cardNumber" required></label>
+      <label>Expiration <input type="text" name="expiration" required></label>
+      <label>Security Code <input type="text" name="code" required></label>
+
+      <button type="submit">Place Order</button>
+    </form>
+
+    <section id="order-summary">
+      <h2>Order Summary</h2>
+      <p>Items Subtotal: <span id="item-total">$0.00</span></p>
+      <p>Shipping: <span id="shipping">$0.00</span></p>
+      <p>Tax: <span id="tax">$0.00</span></p>
+      <p><strong>Total: <span id="order-total">$0.00</span></strong></p>
+    </section>
+  </main>
+</body>
+</html>
