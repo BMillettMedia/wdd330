@@ -1,4 +1,4 @@
-import { initApp } from './initApp.js';
+import { initApp } from './init/initApp.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   initApp();

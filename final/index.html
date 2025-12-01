@@ -1,35 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style/styles.css" >
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pokédex Explorer</title>
-  
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./style/style.css" />
 </head>
-
 <body>
-  <header>
+  <header class="app-header">
     <h1>Pokédex Explorer</h1>
-    <button id="theme-toggle">Toggle Theme</button>
+    <div class="controls">
+      <input id="search" type="search" placeholder="Search Pokémon by name or # — e.g. Eevee or 133" aria-label="Search Pokémon" />
+      <select id="regionSelect" aria-label="Region filter">
+        <option value="all">All regions</option>
+        <option value="kanto">Kanto (I)</option>
+        <option value="johto">Johto (II)</option>
+        <option value="hoenn">Hoenn (III)</option>
+        <option value="sinnoh">Sinnoh (IV)</option>
+        <option value="unova">Unova (V)</option>
+        <option value="kalos">Kalos (VI)</option>
+        <option value="alola">Alola (VII)</option>
+        <option value="galar">Galar (VIII)</option>
+        <option value="hisui">Hisui (VIII.5)</option>
+        <option value="paldea">Paldea (IX)</option>
+      </select>
+      <button id="theme-toggle" title="Toggle theme">🌙</button>
+      <button id="favoritesBtn" title="View favorites">⭐</button>
+    </div>
   </header>
 
   <main>
-    <input type="text" id="search" placeholder="Search Pokémon by name..." />
-    <div id="pokedex-grid">
-      <p>Loading Pokémon data...</p>
+    <section class="pokedex-controls">
+      <div id="typeFilters" class="type-filters"></div>
+    </section>
+
+    <section id="pokedex-grid" class="grid" aria-live="polite">
+      <div class="loading">Loading...</div>
+    </section>
+
+    <nav class="pagination">
+      <button id="prevPage">← Prev</button>
+      <span id="pageInfo">Page 1</span>
+      <button id="nextPage">Next →</button>
+    </nav>
+
+    <template id="pokemonCardTemplate">
+      <article class="pokemon-card" tabindex="0">
+        <div class="spriteWrap"><img class="sprite" alt=""></div>
+        <div class="info">
+          <div class="titleRow">
+            <h3 class="name"></h3>
+            <div class="id"></div>
+          </div>
+          <div class="types"></div>
+        </div>
+        <button class="favBtn" aria-label="Toggle favorite">☆</button>
+      </article>
+    </template>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-content">
+        <button id="closeModal" class="close" aria-label="Close">✕</button>
+        <div id="detailBody"></div>
+      </div>
+    </div>
+
+    <!-- Favorites Panel -->
+    <div id="favoritesPanel" class="panel hidden" aria-hidden="true">
+      <button id="closeFavorites" class="close" aria-label="Close">✕</button>
+      <h2>Your Favorites</h2>
+      <div id="favoritesList"></div>
     </div>
   </main>
 
-  <footer>
-    <p>Data provided by <a href="https://pokeapi.co/" target="_blank">PokéAPI</a></p>
+  <footer class="app-footer">
+    <small>Data via PokéAPI — offline fallback available.</small>
   </footer>
 
-  <!-- ✅ Script Imports -->
   <script type="module" src="./js/main.js"></script>
-  <script type="module">
-    import { initApp } from './js/initApp.js';
-    window.addEventListener('DOMContentLoaded', initApp);
-  </script>
 </body>
 </html>
