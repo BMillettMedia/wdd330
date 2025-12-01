@@ -9,6 +9,7 @@ export function setupSearch() {
   input.addEventListener('input', () => {
     const q = input.value.toLowerCase().trim();
 
+    // Filter the already-loaded Pokémon
     const filtered = state.pokemon.filter(p =>
       p.name.toLowerCase().includes(q)
     );
