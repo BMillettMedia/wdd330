@@ -7,6 +7,14 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./style/style.css" />
   <link rel="stylesheet" href="./style/reset.css" />
+  <script type="module">
+  import { loadInitialPokemon } from "./js/data.js";
+  import { setupSearch } from "./js/events.js";
+
+  loadInitialPokemon();
+  setupSearch();
+</script>
+
 </head>
 <body>
   <header class="app-header">

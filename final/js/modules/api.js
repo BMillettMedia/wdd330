@@ -116,7 +116,7 @@ export async function getPokemonList(offset = 0, limit = 50) {
   const res = await fetch(`${API_BASE}?offset=${offset}&limit=${limit}`);
   const data = await res.json();
 
-  // fetch each full Pokémon (includes stats, sprites, types)
+  // Each URL gives full Pokémon details including sprites & stats
   const detailed = await Promise.all(
     data.results.map(p => fetch(p.url).then(r => r.json()))
   );
