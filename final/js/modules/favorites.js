@@ -1,25 +1,26 @@
-// js/modules/favorites.js
+import { getFromStorage, saveToStorage } from './storage.js';
 
 export function loadFavorites() {
-  const data = localStorage.getItem('favorites');
-  return data ? JSON.parse(data) : [];
+  return getFromStorage('pokedex_favorites', []);
 }
 
-export function saveFavorites(favorites) {
-  localStorage.setItem('favorites', JSON.stringify(favorites));
+export function saveFavorites(list) {
+  saveToStorage('pokedex_favorites', list);
 }
 
 export function toggleFavorite(pokemonId) {
-  let favorites = loadFavorites();
-  if (favorites.includes(pokemonId)) {
-    favorites = favorites.filter((id) => id !== pokemonId);
+  const cur = loadFavorites();
+  let updated;
+  if (cur.includes(pokemonId)) {
+    updated = cur.filter(id => id !== pokemonId);
   } else {
-    favorites.push(pokemonId);
+    updated = [...cur, pokemonId];
   }
-  saveFavorites(favorites);
+  saveFavorites(updated);
   document.dispatchEvent(new Event('favoritesUpdated'));
 }
 
 export function isFavorite(pokemonId) {
-  return loadFavorites().includes(pokemonId);
+  const cur = loadFavorites();
+  return cur.includes(pokemonId);
 }

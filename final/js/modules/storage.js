@@ -1,18 +1,16 @@
-// js/modules/storage.js
-
 export function saveToStorage(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
-  } catch (err) {
-    console.error('Storage save error:', err);
+  } catch (e) {
+    console.error('Storage save failed', e);
   }
 }
 
-export function getFromStorage(key, defaultValue = null) {
+export function getFromStorage(key, fallback = null) {
   try {
-    const value = localStorage.getItem(key);
-    return value ? JSON.parse(value) : defaultValue;
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
   } catch {
-    return defaultValue;
+    return fallback;
   }
 }

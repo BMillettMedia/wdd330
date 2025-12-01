@@ -1,16 +1,15 @@
-// js/modules/theme.js
+import { getFromStorage, saveToStorage } from './storage.js';
 
 export function initTheme() {
-  const saved = localStorage.getItem('theme');
-  if (saved) document.body.dataset.theme = saved;
-
-  document
-    .getElementById('theme-toggle')
-    ?.addEventListener('click', toggleTheme);
-}
-
-export function toggleTheme() {
-  const current = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
-  document.body.dataset.theme = current;
-  localStorage.setItem('theme', current);
+  const toggle = document.getElementById('theme-toggle');
+  const saved = getFromStorage('pokedex_theme', 'light');
+  document.documentElement.setAttribute('data-theme', saved);
+  toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+  toggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    saveToStorage('pokedex_theme', next);
+    toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
 }
