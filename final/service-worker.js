@@ -4,22 +4,8 @@ const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
-  '/assets/css/style.css',
-  '/assets/img/placeholder.png',
+  '/style/style.css',
   '/js/main.js',
-  '/js/init/initApp.js',
-  '/js/init/initData.js',
-  '/js/init/initFilters.js',
-  '/js/init/initStorage.js',
-  '/js/init/initListeners.js',
-  '/js/modules/api.js',
-  '/js/modules/idb.js',
-  '/js/modules/ui.js',
-  '/js/modules/favorites.js',
-  '/js/modules/theme.js',
-  '/js/modules/filters.js',
-  '/js/modules/storage.js',
-  '/js/modules/utils.js',
   '/data/pokedex-fallback.json'
 ];
 
@@ -56,7 +42,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // PokéAPI responses: network-first, fallback to cache
+  // For PokéAPI endpoints: network-first, fallback to cache
   if (req.method === 'GET' && url.hostname.includes('pokeapi.co')) {
     event.respondWith(
       caches.open(API_CACHE).then(async cache => {
@@ -78,7 +64,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // default network-first, then cache
+  // default network-first then cache fallback
   event.respondWith(
     fetch(req).catch(() => caches.match(req))
   );

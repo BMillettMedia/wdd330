@@ -1,8 +1,9 @@
-import { initUI } from './init/initUI.js';
-import { initData } from './init/initData.js';
-import { initStorage } from './init/initStorage.js';
-import { initFilters } from './init/initFilters.js';
-import { initListeners } from './init/initListeners.js';
+import { initUI } from './initUI.js';
+import { initData } from './initData.js';
+import { initStorage } from './initStorage.js';
+import { initFilters } from './initFilters.js';
+import { initListeners } from './initListeners.js';
+import { registerServiceWorker } from '../sw-register.js';
 
 export async function initApp() {
   console.log('Initializing Pokédex Explorer...');
@@ -10,5 +11,6 @@ export async function initApp() {
   initStorage();
   initFilters();
   initListeners();
+  registerServiceWorker();
   await initData();
 }

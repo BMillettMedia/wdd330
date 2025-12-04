@@ -1,29 +1,37 @@
-export function renderPokemonCard(pokemon) {
-  const sprite =
-    pokemon.sprites.other["official-artwork"].front_default ||
-    pokemon.sprites.front_default ||
-    "./img/placeholder.png"; // optional fallback
+import { capitalize, extractIdFromUrl, officialArtworkUrl } from './utils.js';
+import { openDetail } from './modal.js';
+import { isFavorite, toggleFavorite } from './favorites.js';
 
-  return `
-    <div class="pokemon-card" data-id="${pokemon.id}">
-      <div class="spriteWrap">
-        <img class="sprite" src="${sprite}" alt="${pokemon.name}">
-      </div>
+export function createCardFromSummary(item) {
+  const id = extractIdFromUrl(item.url);
+  const name = capitalize(item.name);
+  const sprite = officialArtworkUrl(id); // fast immediate artwork
 
-      <div class="info">
-        <div class="titleRow">
-          <h3 class="name">${pokemon.name}</h3>
-          <span class="id">#${pokemon.id.toString().padStart(3, "0")}</span>
-        </div>
+  const template = document.getElementById('pokemonCardTemplate');
+  const card = template.content.cloneNode(true);
+  const article = card.querySelector('.pokemon-card');
+  const img = card.querySelector('.sprite');
+  const nameEl = card.querySelector('.name');
+  const idEl = card.querySelector('.id');
+  const typesWrap = card.querySelector('.types');
+  const favBtn = card.querySelector('.favBtn');
 
-        <div class="types">
-          ${pokemon.types
-            .map(t => `<span class="typeBadge type-${t.type.name}">${t.type.name}</span>`)
-            .join("")}
-        </div>
-      </div>
+  img.src = sprite;
+  img.alt = name;
+  nameEl.textContent = name;
+  idEl.textContent = `#${String(id).padStart(3,'0')}`;
 
-      <button class="favBtn">★</button>
-    </div>
-  `;
+  // types will be populated later when details fetched; leave blank for now
+  typesWrap.innerHTML = '';
+
+  favBtn.textContent = isFavorite(id) ? '★' : '☆';
+  favBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleFavorite(id);
+    favBtn.textContent = isFavorite(id) ? '★' : '☆';
+  });
+
+  article.addEventListener('click', () => openDetail(id, item.name));
+
+  return card;
 }

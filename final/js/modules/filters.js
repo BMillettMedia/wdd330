@@ -1,7 +1,7 @@
 import { debounce } from './utils.js';
-import { loadPokemonList } from './api.js';
-import { renderPokemonGrid, searchAndOpen } from './ui.js';
-import { saveToStorage, getFromStorage } from './storage.js';
+import { renderPokemonGrid } from './ui.js';
+import { getFromStorage } from './storage.js';
+import { searchAndOpen } from './modal.js';
 
 let allSummaries = [];
 
@@ -9,14 +9,17 @@ export async function setupFilters() {
   const searchInput = document.getElementById('search');
   if (!searchInput) return;
 
-  const cached = getFromStorage('pokedex_list');
-  if (cached && cached.length) allSummaries = cached;
-  else {
-    allSummaries = await loadPokemonList(151);
-    saveToStorage('pokedex_list', allSummaries);
+  // load cached list or fallback to storage
+  const cached = getFromStorage('pokedex_list', []);
+  allSummaries = cached;
+
+  if (!allSummaries || allSummaries.length === 0) {
+    // nothing yet; allow initData to populate first
+    allSummaries = [];
   }
 
-  renderPokemonGrid(allSummaries);
+  // show initial grid if available
+  if (allSummaries.length > 0) renderPokemonGrid(allSummaries);
 
   searchInput.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
@@ -32,16 +35,20 @@ export async function setupFilters() {
       renderPokemonGrid(allSummaries);
       return;
     }
-    if (q.length < 3) return;
+    if (q.length < 2) return; // wait for 2+ chars
     const filtered = allSummaries.filter(p => p.name.includes(q));
-    if (filtered.length > 0) renderPokemonGrid(filtered);
-    else {
-      try { await searchAndOpen(q); } catch {
+    if (filtered.length > 0) {
+      renderPokemonGrid(filtered);
+    } else {
+      // if no local summary match, try exact fetch via modal
+      try {
+        await searchAndOpen(q);
+      } catch {
         const grid = document.getElementById('pokedex-grid');
         grid.innerHTML = `<div class="empty">No Pokémon found for "${q}".</div>`;
       }
     }
-  }, 250);
+  }, 200);
 
   searchInput.addEventListener('input', debounced);
 }

@@ -6,15 +6,6 @@
   <title>Pokédex Explorer</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./style/style.css" />
-  <link rel="stylesheet" href="./style/reset.css" />
-  <script type="module">
-  import { loadInitialPokemon } from "./js/data.js";
-  import { setupSearch } from "./js/events.js";
-
-  loadInitialPokemon();
-  setupSearch();
-</script>
-
 </head>
 <body>
   <header class="app-header">
@@ -23,16 +14,6 @@
       <input id="search" type="search" placeholder="Search Pokémon by name or # — e.g. Eevee or 133" aria-label="Search Pokémon" />
       <select id="regionSelect" aria-label="Region filter">
         <option value="all">All regions</option>
-        <option value="kanto">Kanto (I)</option>
-        <option value="johto">Johto (II)</option>
-        <option value="hoenn">Hoenn (III)</option>
-        <option value="sinnoh">Sinnoh (IV)</option>
-        <option value="unova">Unova (V)</option>
-        <option value="kalos">Kalos (VI)</option>
-        <option value="alola">Alola (VII)</option>
-        <option value="galar">Galar (VIII)</option>
-        <option value="hisui">Hisui (VIII.5)</option>
-        <option value="paldea">Paldea (IX)</option>
       </select>
       <button id="theme-toggle" title="Toggle theme">🌙</button>
       <button id="favoritesBtn" title="View favorites">⭐</button>
