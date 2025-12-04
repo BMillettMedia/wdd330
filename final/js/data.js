@@ -5,17 +5,19 @@ import { state } from "../modules/state.js";
 const grid = document.getElementById("pokedex-grid");
 
 export async function loadInitialPokemon() {
-  try {
-    grid.innerHTML = "<p>Loading...</p>";
+  const grid = document.getElementById("pokedex-grid");
+  grid.innerHTML = "<p>Loading...</p>";
 
-    const total = 151; // Start with Gen 1 for speed
-    const pokemon = await getPokemonList(0, total);
+  try {
+    const pokemon = await getPokemonList(0, 151); // Gen 1 for fast load
 
     state.pokemon = pokemon;
+    state.filteredPokemon = pokemon;
 
     renderGrid(grid, pokemon);
+
   } catch (err) {
     console.error(err);
-    grid.innerHTML = `<p class="error">Failed to load Pokémon. Try refreshing.</p>`;
+    grid.innerHTML = "<p>Error loading Pokémon. Please refresh.</p>";
   }
 }

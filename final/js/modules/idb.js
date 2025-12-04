@@ -1,26 +1,20 @@
 const DB_NAME = 'pokedex-db';
 const DB_VERSION = 1;
-const STORE_SUMMARIES = 'summaries';
-const STORE_DETAILS = 'details';
 
 function openDB() {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
     req.onupgradeneeded = (e) => {
       const db = e.target.result;
-      if (!db.objectStoreNames.contains(STORE_SUMMARIES)) {
-        db.createObjectStore(STORE_SUMMARIES, { keyPath: 'name' });
-      }
-      if (!db.objectStoreNames.contains(STORE_DETAILS)) {
-        db.createObjectStore(STORE_DETAILS, { keyPath: 'id' });
-      }
+      if (!db.objectStoreNames.contains('summaries')) db.createObjectStore('summaries', { keyPath: 'name' });
+      if (!db.objectStoreNames.contains('details')) db.createObjectStore('details', { keyPath: 'id' });
     };
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
   });
 }
 
-async function put(storeName, value) {
+export async function put(storeName, value) {
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(storeName, 'readwrite');
@@ -31,7 +25,7 @@ async function put(storeName, value) {
   });
 }
 
-async function get(storeName, key) {
+export async function get(storeName, key) {
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(storeName, 'readonly');
@@ -42,7 +36,7 @@ async function get(storeName, key) {
   });
 }
 
-async function getAll(storeName) {
+export async function getAll(storeName) {
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(storeName, 'readonly');
@@ -52,23 +46,3 @@ async function getAll(storeName) {
     req.onerror = () => reject(req.error);
   });
 }
-
-async function bulkPutDetails(records = []) {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_DETAILS, 'readwrite');
-    const store = tx.objectStore(STORE_DETAILS);
-    records.forEach(r => store.put(r));
-    tx.oncomplete = () => resolve(true);
-    tx.onerror = () => reject(tx.error);
-  });
-}
-
-export {
-  put,
-  get,
-  getAll,
-  bulkPutDetails,
-  STORE_SUMMARIES,
-  STORE_DETAILS
-};

@@ -1,20 +1,19 @@
-// js/events.js
-
-import { state } from '../modules/state.js';
-import { renderGrid } from '../modules/renderer.js';
+import { state } from "../modules/state.js";
+import { renderGrid } from "../modules/renderer.js";
 
 export function setupSearch() {
-  const input = document.getElementById('search');
+  const input = document.getElementById("search");
+  const grid = document.getElementById("pokedex-grid");
 
-  input.addEventListener('input', () => {
-    const q = input.value.toLowerCase().trim();
+  input.addEventListener("input", (e) => {
+    const query = e.target.value.toLowerCase();
 
-    // Filter the already-loaded Pokémon
-    const filtered = state.pokemon.filter(p =>
-      p.name.toLowerCase().includes(q)
+    const filtered = state.pokemon.filter((p) =>
+      p.name.toLowerCase().includes(query)
     );
 
-    const grid = document.getElementById('pokedex-grid');
+    state.filteredPokemon = filtered;
+
     renderGrid(grid, filtered);
   });
 }
