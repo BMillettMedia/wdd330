@@ -1,37 +1,31 @@
-import { capitalize, extractIdFromUrl, officialArtworkUrl } from './utils.js';
-import { openDetail } from './modal.js';
-import { isFavorite, toggleFavorite } from './favorites.js';
+export function renderPokemonList(list) {
+  const grid = document.getElementById("pokedexGrid");
+  grid.innerHTML = "";
 
-export function createCardFromSummary(item) {
-  const id = extractIdFromUrl(item.url);
-  const name = capitalize(item.name);
-  const sprite = officialArtworkUrl(id); // fast immediate artwork
+  if (!list || list.length === 0) {
+    grid.innerHTML = "<p>No Pokémon found.</p>";
+    return;
+  }
 
-  const template = document.getElementById('pokemonCardTemplate');
-  const card = template.content.cloneNode(true);
-  const article = card.querySelector('.pokemon-card');
-  const img = card.querySelector('.sprite');
-  const nameEl = card.querySelector('.name');
-  const idEl = card.querySelector('.id');
-  const typesWrap = card.querySelector('.types');
-  const favBtn = card.querySelector('.favBtn');
+  list.forEach((p) => {
+    const card = document.createElement("div");
+    card.className = "pokemon-card";
 
-  img.src = sprite;
-  img.alt = name;
-  nameEl.textContent = name;
-  idEl.textContent = `#${String(id).padStart(3,'0')}`;
+    card.innerHTML = `
+      <div class="spriteWrap">
+        <img class="sprite" src="${p.sprite}" alt="${p.name}">
+      </div>
+      <div class="info">
+        <div class="titleRow">
+          <h3 class="name">${p.name}</h3>
+          <span class="id">#${p.id}</span>
+        </div>
+        <div class="types">
+          ${p.types.map(t => `<span class="typeBadge">${t}</span>`).join("")}
+        </div>
+      </div>
+    `;
 
-  // types will be populated later when details fetched; leave blank for now
-  typesWrap.innerHTML = '';
-
-  favBtn.textContent = isFavorite(id) ? '★' : '☆';
-  favBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleFavorite(id);
-    favBtn.textContent = isFavorite(id) ? '★' : '☆';
+    grid.appendChild(card);
   });
-
-  article.addEventListener('click', () => openDetail(id, item.name));
-
-  return card;
 }

@@ -14,3 +14,14 @@ export async function initApp() {
   registerServiceWorker();
   await initData();
 }
+
+
+export function initApp() {
+  console.log("App init…");
+
+  loadTheme();
+  attachListeners();
+
+  // DEFAULT LOAD — ALWAYS SHOW POKÉDEX PAGE 1
+  loadPokemonPage(1);
+}

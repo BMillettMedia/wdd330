@@ -43,3 +43,36 @@ export async function initData() {
     }
   }
 }
+
+
+//corrected code
+export async function loadPokemonPage(page = 1) {
+  const limit = 30;
+  const offset = (page - 1) * limit;
+
+  document.getElementById("loading").style.display = "block";
+
+  // Try IndexedDB first
+  let cached = await getCachedList(offset, limit);
+  if (cached && cached.length > 0) {
+    renderPokemonList(cached);
+    document.getElementById("loading").style.display = "none";
+  }
+
+  // Fetch fresh data from API
+  try {
+    const list = await fetchPokemonList(offset, limit);
+
+    renderPokemonList(list);
+    savePokemonList(list, offset);
+
+  } catch (err) {
+    console.error("API error:", err);
+
+    if (!cached) {
+      document.getElementById("loading").innerText = "Failed to load Pokémon.";
+    }
+  }
+
+  document.getElementById("loading").style.display = "none";
+}

@@ -1,72 +1,40 @@
-<!doctype html>
-<html lang="en" data-theme="light">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pokédex Explorer</title>
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./style/style.css" />
+  <link rel="stylesheet" href="./style/reset.css">
+  <link rel="stylesheet" href="./style/style.css">
 </head>
+
 <body>
   <header class="app-header">
     <h1>Pokédex Explorer</h1>
+
     <div class="controls">
-      <input id="search" type="search" placeholder="Search Pokémon by name or # — e.g. Eevee or 133" aria-label="Search Pokémon" />
-      <select id="regionSelect" aria-label="Region filter">
+      <input id="searchInput" type="search" placeholder="Search Pokémon by name…">
+      <select id="regionFilter">
         <option value="all">All regions</option>
       </select>
-      <button id="theme-toggle" title="Toggle theme">🌙</button>
-      <button id="favoritesBtn" title="View favorites">⭐</button>
+      <button id="themeToggle">🌙</button>
+      <button id="favoritesBtn">⭐</button>
     </div>
   </header>
 
   <main>
-    <section class="pokedex-controls">
-      <div id="typeFilters" class="type-filters"></div>
-    </section>
+    <div id="loading">Loading…</div>
+    <div id="pokedexGrid" class="grid"></div>
 
-    <section id="pokedex-grid" class="grid" aria-live="polite">
-      <div class="loading">Loading...</div>
-    </section>
-
-    <nav class="pagination">
-      <button id="prevPage">← Prev</button>
-      <span id="pageInfo">Page 1</span>
-      <button id="nextPage">Next →</button>
-    </nav>
-
-    <template id="pokemonCardTemplate">
-      <article class="pokemon-card" tabindex="0">
-        <div class="spriteWrap"><img class="sprite" alt=""></div>
-        <div class="info">
-          <div class="titleRow">
-            <h3 class="name"></h3>
-            <div class="id"></div>
-          </div>
-          <div class="types"></div>
-        </div>
-        <button class="favBtn" aria-label="Toggle favorite">☆</button>
-      </article>
-    </template>
-
-    <!-- Detail Modal -->
-    <div id="detailModal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
-      <div class="modal-content">
-        <button id="closeModal" class="close" aria-label="Close">✕</button>
-        <div id="detailBody"></div>
-      </div>
-    </div>
-
-    <!-- Favorites Panel -->
-    <div id="favoritesPanel" class="panel hidden" aria-hidden="true">
-      <button id="closeFavorites" class="close" aria-label="Close">✕</button>
-      <h2>Your Favorites</h2>
-      <div id="favoritesList"></div>
+    <div class="pagination">
+      <button id="prevBtn">← Prev</button>
+      <span id="pageNumber">Page 1</span>
+      <button id="nextBtn">Next →</button>
     </div>
   </main>
 
   <footer class="app-footer">
-    <small>Data via PokéAPI — offline fallback available.</small>
+    Pokédex Explorer — Powered by PokéAPI
   </footer>
 
   <script type="module" src="./js/main.js"></script>
