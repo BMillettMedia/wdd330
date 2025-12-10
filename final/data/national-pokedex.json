@@ -1,0 +1,19 @@
+[
+  {"id":1,"name":"Bulbasaur","types":["Grass","Poison"],"region":"Kanto","generation":1},
+  {"id":2,"name":"Ivysaur","types":["Grass","Poison"],"region":"Kanto","generation":1},
+  {"id":3,"name":"Venusaur","types":["Grass","Poison"],"region":"Kanto","generation":1},
+  {"id":4,"name":"Charmander","types":["Fire"],"region":"Kanto","generation":1},
+  {"id":5,"name":"Charmeleon","types":["Fire"],"region":"Kanto","generation":1},
+  {"id":6,"name":"Charizard","types":["Fire","Flying"],"region":"Kanto","generation":1},
+  {"id":7,"name":"Squirtle","types":["Water"],"region":"Kanto","generation":1},
+  {"id":8,"name":"Wartortle","types":["Water"],"region":"Kanto","generation":1},
+  {"id":9,"name":"Blastoise","types":["Water"],"region":"Kanto","generation":1},
+  {"id":10,"name":"Caterpie","types":["Bug"],"region":"Kanto","generation":1},
+  {"id":25,"name":"Pikachu","types":["Electric"],"region":"Kanto","generation":1},
+  {"id":133,"name":"Eevee","types":["Normal"],"region":"Kanto","generation":1},
+  {"id":144,"name":"Articuno","types":["Ice","Flying"],"region":"Kanto","generation":1},
+  {"id":145,"name":"Zapdos","types":["Electric","Flying"],"region":"Kanto","generation":1},
+  {"id":146,"name":"Moltres","types":["Fire","Flying"],"region":"Kanto","generation":1},
+  {"id":150,"name":"Mewtwo","types":["Psychic"],"region":"Kanto","generation":1},
+  {"id":151,"name":"Mew","types":["Psychic"],"region":"Kanto","generation":1}
+]
