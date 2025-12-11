@@ -5,7 +5,7 @@
 import fs from 'fs/promises';
 
 const BASE = 'https://pokeapi.co/api/v2';
-const OUT_DIR = './data';
+const OUT_DIR = '.final/data';
 const SLIM_OUT = `${OUT_DIR}/national-pokedex-slim.json`;
 const FULL_OUT = `${OUT_DIR}/national-pokedex-full.json`;
 
