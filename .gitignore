@@ -1,1 +1,3 @@
 *.txt
+# Generated Pokédex data (too large for GitHub)
+final/data/national-pokedex-full.json
