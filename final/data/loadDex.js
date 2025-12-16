@@ -1,46 +1,59 @@
-const API_URL = 'https://pokeapi.co/api/v2/pokemon?limit=2000';
-const LOCAL_JSON = './data/national-pokedex-slim.json';
+const API_LIST = 'https://pokeapi.co/api/v2/pokemon?limit=2000';
+const LOCAL_JSON = '../data/national-pokedex-slim.json'; // ✅ FIXED PATH
 
 function capitalize(str = '') {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// -------- API LOADER --------
 async function loadFromAPI() {
-  const response = await fetch(API_URL);
-  if (!response.ok) throw new Error('API unavailable');
+  console.log('Attempting to load from PokéAPI…');
 
-  const list = await response.json();
+  const listRes = await fetch(API_LIST);
+  if (!listRes.ok) throw new Error('API list failed');
 
-  const results = await Promise.all(
-    list.results.map(async (item, index) => {
+  const list = await listRes.json();
+
+  const pokemon = await Promise.all(
+    list.results.map(async (item) => {
       const res = await fetch(item.url);
-      const data = await res.json();
+      if (!res.ok) throw new Error('API detail failed');
+
+      const p = await res.json();
 
       return {
-        id: data.id,
-        name: capitalize(data.name),
-        types: data.types.map(t => capitalize(t.type.name)),
-        region: null,      // API-only fallback won’t have region
-        generation: null
+        id: p.id,
+        name: capitalize(p.name),
+        types: p.types.map(t => capitalize(t.type.name)),
+        region: '—',        // API-only mode
+        generation: '—'
       };
     })
   );
 
-  return results.sort((a, b) => a.id - b.id);
+  console.log('Loaded from API:', pokemon.length);
+  return pokemon.sort((a, b) => a.id - b.id);
 }
 
-async function loadFromLocalJSON() {
-  const response = await fetch(LOCAL_JSON);
-  if (!response.ok) throw new Error('Local JSON missing');
-  return response.json();
+// -------- LOCAL JSON LOADER --------
+async function loadFromLocal() {
+  console.log('Loading from local JSON…');
+
+  const res = await fetch(LOCAL_JSON);
+  if (!res.ok) throw new Error('Local JSON fetch failed');
+
+  const data = await res.json();
+  console.log('Loaded from local JSON:', data.length);
+
+  return data;
 }
 
+// -------- PUBLIC FUNCTION --------
 export async function loadPokedexData() {
   try {
-    console.log('Trying PokéAPI...');
     return await loadFromAPI();
   } catch (err) {
-    console.warn('API failed, using local JSON');
-    return await loadFromLocalJSON();
+    console.warn('API failed, falling back to local JSON:', err.message);
+    return await loadFromLocal();
   }
 }

@@ -1,6 +1,11 @@
-export function renderTable(pokemonList) {
+export function renderTable(pokemonList = []) {
   const tbody = document.querySelector('#pokedex-table tbody');
   tbody.innerHTML = '';
+
+  if (!pokemonList.length) {
+    tbody.innerHTML = `<tr><td colspan="5">No Pokémon found.</td></tr>`;
+    return;
+  }
 
   pokemonList.forEach(p => {
     const tr = document.createElement('tr');
@@ -8,7 +13,7 @@ export function renderTable(pokemonList) {
     tr.innerHTML = `
       <td>${p.id}</td>
       <td>${p.name}</td>
-      <td>${p.types.join(' / ')}</td>
+      <td>${Array.isArray(p.types) ? p.types.join(' / ') : '—'}</td>
       <td>${p.region ?? '—'}</td>
       <td>${p.generation ?? '—'}</td>
     `;

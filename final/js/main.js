@@ -1,36 +1,21 @@
-import { loadAll } from './api.js';
-import { renderList } from './render.js';
-import { enableSearch } from './search.js';
-
 import { loadPokedexData } from './data/loadDex.js';
 import { renderTable } from './ui/renderTable.js';
 
-
-async function init() {
+document.addEventListener('DOMContentLoaded', async () => {
   const status = document.getElementById('status');
-  status.textContent = 'Loading Pokédex from API (fallback: local JSON)...';
 
-  // load list (API with fallback)
-  const all = await loadAll();
-
-  // render default full list
-  renderList(all);
-
-  // enable search with local filtering and API fallback
-  enableSearch(all);
-}
-
-init();
-
-
-//local Pokedex load
-async function init() {
   try {
-    const data = await loadPokedexData();
-    renderTable(data);
-  } catch (err) {
-    console.error('Failed to initialize app:', err);
-  }
-}
+    status.textContent = 'Loading Pokédex…';
 
-init();
+    // Load from API, fallback to local JSON
+    const data = await loadPokedexData();
+
+    // Render full table by default
+    renderTable(data);
+
+    status.textContent = `Loaded ${data.length} Pokémon`;
+  } catch (err) {
+    console.error('Initialization failed:', err);
+    status.textContent = 'Failed to load Pokédex.';
+  }
+});
