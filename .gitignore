@@ -1,3 +1,4 @@
 *.txt
 # Generated Pokédex data (too large for GitHub)
 final/js/data/national-pokedex-full.json
+#full pokedex removed
