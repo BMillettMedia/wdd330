@@ -22,3 +22,7 @@ export function generationFromId(id){
   if (id <= 905) return 8;
   return 9;
 }
+
+export function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}

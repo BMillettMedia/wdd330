@@ -19,3 +19,52 @@ export function renderList(pokemonArray) {
     </div>
   `).join('');
 }
+
+
+/*export function renderTable(list) {
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+
+  list.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${p.id}</td>
+      <td>${p.name}</td>
+      <td>${p.types.join(', ')}</td>
+      <td>${p.region}</td>
+      <td>${p.generation}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}*/
+
+
+export function renderTable(list) {
+  const container = document.getElementById('tableContainer');
+
+  // overwrite previous content
+  container.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Types</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${list
+          .map(
+            (p) => `
+          <tr>
+            <td>${p.id}</td>
+            <td>${p.name}</td>
+            <td>${p.types.join(', ')}</td>
+          </tr>
+        `
+          )
+          .join('')}
+      </tbody>
+    </table>
+  `;
+}

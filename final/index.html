@@ -10,10 +10,13 @@
 <body>
   <header class="app-header">
     <h1>Pokédex Explorer</h1>
-    <div class="controls">
-      <input id="searchInput" type="search" placeholder="Search Pokémon by name..." aria-label="Search Pokémon by name"/>
-      <button id="refreshBtn" title="Refresh from API">Refresh</button>
-    </div>
+    <div class="search-container">
+  <form id="searchForm">
+    <input id="search" placeholder="Search Pokémon by name…" />
+    <button type="submit">Search</button>
+  </form>
+</div>
+
   </header>
 
   <!--National Dex Display-->
@@ -25,8 +28,8 @@
         <th>#</th>
         <th>Name</th>
         <th>Types</th>
-        <th>Region</th>
-        <th>Generation</th>
+        <!--<th>Region</th>-->
+        <!--<th>Generation</th>-->
       </tr>
     </thead>
     <tbody></tbody>

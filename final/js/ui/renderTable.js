@@ -14,8 +14,6 @@ export function renderTable(pokemonList = []) {
       <td>${p.id}</td>
       <td>${p.name}</td>
       <td>${Array.isArray(p.types) ? p.types.join(' / ') : '—'}</td>
-      <td>${p.region ?? '—'}</td>
-      <td>${p.generation ?? '—'}</td>
     `;
 
     tbody.appendChild(tr);
